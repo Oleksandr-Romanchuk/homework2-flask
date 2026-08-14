@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M-POWER AUTO SERVICE | Преміальний Автосервіс</title>
-    <!-- Підключаємо шрифти та іконки -->
+    <!-- Шрифти та Іконки -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Анімації AOS -->
@@ -33,11 +33,15 @@
             </div>
         </div>
 
-        <!-- Контейнер для білої BMW на прозорому фоні -->
+        <!-- Контейнер для авто з окремими колесами -->
         <div class="car-track">
             <div class="hero-car-wrapper" id="carWrapper">
-                <img src="https://pngimg.com/uploads/bmw/bmw_PNG99540.png" alt="BMW M4 White" class="hero-car-img">
-                <div class="headlights-glow"></div>
+                <!-- Кузов авто -->
+                <img src="https://i.ibb.co/5R3G4vX/bmw-body.png" alt="BMW Body" class="car-body">
+
+                <!-- Окремі колеса, які прокручуються -->
+                <div class="wheel wheel-front"></div>
+                <div class="wheel wheel-rear"></div>
             </div>
         </div>
     </section>
@@ -100,7 +104,7 @@
         <p>© 2026 M-POWER AUTO SERVICE. Всі права захищені.</p>
     </footer>
 
-    <!-- Скрипт анімацій появи при скролі -->
+    <!-- Скрипт анімацій появи -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init({
@@ -108,19 +112,5 @@
         });
     </script>
 
-    <!-- Скрипт для зупинки машини та засвічування фар -->
-    <script>
-        const car = document.getElementById('carWrapper');
-        const formInputs = document.querySelectorAll('.neon-form input, .neon-form select');
-
-        formInputs.forEach(input => {
-            input.addEventListener('focus', () => {
-                if (car) {
-                    car.classList.add('car-stopped');
-                    car.classList.add('headlights-on');
-                }
-            });
-        });
-    </script>
 </body>
 </html>

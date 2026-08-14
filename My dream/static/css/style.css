@@ -116,47 +116,44 @@ body {
     line-height: 1.6;
 }
 
-/* Контейнер анімації руху авто */
+/* Трек для анімації машини */
 .car-track {
     position: relative;
     width: 55%;
     z-index: 2;
 }
 
+/* Повільне виконання виїзду (8 секунд) */
 .hero-car-wrapper {
     position: relative;
     width: 100%;
-    animation: driveInCar 3.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation: slowDriveIn 8s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
 }
 
-.hero-car-img {
+.car-body {
     width: 100%;
     height: auto;
     display: block;
     filter: drop-shadow(0 15px 12px rgba(0, 0, 0, 0.8));
 }
 
-/* Ефект неонових фар */
-.headlights-glow {
+/* Колеса авто */
+.wheel {
     position: absolute;
-    top: 48%;
-    left: 2%;
-    width: 22%;
-    height: 25%;
-    background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.9) 0%, rgba(0, 255, 102, 0.5) 50%, transparent 80%);
-    opacity: 0;
-    filter: blur(12px);
-    transition: opacity 0.5s ease-in-out;
-    pointer-events: none;
+    bottom: 8%;
+    width: 15.5%;
+    height: 31%;
+    background: url('https://i.ibb.co/v4v85yN/bmw-wheel.png') no-repeat center center;
+    background-size: contain;
+    animation: spinWheels 8s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
 }
 
-.hero-car-wrapper.headlights-on .headlights-glow {
-    opacity: 1;
-    box-shadow: -40px 0 70px 20px rgba(0, 255, 255, 0.6);
+.wheel-front {
+    left: 17.5%;
 }
 
-.hero-car-wrapper.car-stopped {
-    animation-play-state: paused;
+.wheel-rear {
+    right: 18.2%;
 }
 
 /* Переваги */
@@ -283,15 +280,23 @@ footer {
     font-size: 14px;
 }
 
-/* Ключові кадри виконання анімації машини */
-@keyframes driveInCar {
+/* Анімація плавного викочування */
+@keyframes slowDriveIn {
     0% {
-        transform: translateX(120%);
-        opacity: 0;
+        transform: translateX(130%);
     }
     100% {
         transform: translateX(0);
-        opacity: 1;
+    }
+}
+
+/* Анімація кручення коліс */
+@keyframes spinWheels {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-1440deg);
     }
 }
 

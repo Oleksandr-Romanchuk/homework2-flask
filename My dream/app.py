@@ -2,12 +2,12 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# 1. Головна сторінка
+# Головна сторінка
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# 2. Обробка форми запису (прибирає помилку 404)
+# Обробка форми запису
 @app.route('/booking', methods=['POST'])
 def booking():
     client_name = request.form.get("client_name")
