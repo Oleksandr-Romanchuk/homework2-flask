@@ -1,55 +1,30 @@
-import requests
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# Твої дані для Telegram
-TELEGRAM_BOT_TOKEN = "8839377652:AAFsnfqOxhcLz-VGU8BHC8v-z8KGFEGQsT4"
-TELEGRAM_CHAT_ID = "964047948"  # Наприклад: "123456789"
-
-
-def send_telegram_message(message_text):
-    """Функція надсилає сповіщення у твій Telegram"""
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message_text, "parse_mode": "HTML"}
-    try:
-        requests.post(url, data=payload)
-    except Exception as e:
-        print(f"Помилка відправки в Telegram: {e}")
-
-
-@app.route("/")
+# 1. Головна сторінка сайту
+@app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template('index.html')
 
-
-@app.route("/api/booking", methods=["POST"])
+# 2. Обробка форми запису (саме цього маршруту не вистачало!)
+@app.route('/booking', methods=['POST'])
 def booking():
+    # Отримуємо дані, які користувач ввів у вікні на сайті
     client_name = request.form.get("client_name")
     client_phone = request.form.get("client_phone")
     service_type = request.form.get("service_type")
 
-    # Формуємо текст повідомлення для Telegram
-    telegram_text = (
-        f"<b>📩 НОВЕ ЗАПИСАННЯ НА СЕРВІС!</b>\n\n"
-        f"<b>👤 Клієнт:</b> {client_name}\n"
-        f"<b>📞 Телефон:</b> {client_phone}\n"
-        f"<b>🛠 Послуга:</b> {service_type}"
-    )
+    # Формуємо відповідь для користувача після успішного запису
+    return f"""
+    <div style="background-color: #0d0f12; color: #00ff66; font-family: sans-serif; text-align: center; padding: 50px; min-height: 100vh;">
+        <h1>Дякуємо, {client_name}!</h1>
+        <p style="color: #fff; font-size: 18px;">Вашу заявку на послугу "<b>{service_type}</b>" успішно прийнято.</p>
+        <p style="color: #a0a5b5;">Ми зателефонуємо вам на номер <b>{client_phone}</b> протягом 5 хвилин.</p>
+        <br><br>
+        <a href="/" style="color: #00ff66; border: 1px solid #00ff66; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Повернутися на сайт</a>
+    </div>
+    """
 
-    # Відправляємо в Telegram
-    send_telegram_message(telegram_text)
-
-    # Друк у консоль PyCharm для перевірки
-    print("=" * 40)
-    print(f"Заявка від {client_name} відправлена в Telegram!")
-    print("=" * 40)
-
-    return f"<h3>Дякуємо, {client_name}! Ваша заявка прийнята. Ми зателефонуємо вам за номером {client_phone}.</h3>"
-
-
-import os
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)
