@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M-POWER AUTO SERVICE | Преміальний Автосервіс</title>
-    <!-- Підключаємо сучасні шрифти та іконки -->
+    <!-- Підключаємо шрифти та іконки -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- CSS-бібліотека для анімацій при прокручуванні -->
+    <!-- Анімації AOS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-    <!-- Наші майбутні стилі -->
+    <!-- Стилі CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <!-- Шапка сайту (Header) -->
+    <!-- Шапка сайту -->
     <header class="header">
         <div class="logo">
             <span>M-POWER</span> AUTO
@@ -23,10 +22,9 @@
         <a href="#booking" class="btn-neon-sm">Записатись</a>
     </header>
 
-    <!-- Головний банер (Hero Section) -->
+    <!-- Головний банер з анімованим авто -->
     <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
+        <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
             <span class="badge-neon">PREMIUM SERVICE</span>
             <h1>ОБСЛУГОВУВАННЯ ТВОЄЇ МРІЇ</h1>
             <p>Діагностика, ремонт та чип-тюнінг авто будь-якої складності з гарантією якості.</p>
@@ -35,10 +33,10 @@
             </div>
         </div>
 
-        <!-- Автомобіль БЕЗ ФОНУ, який котиться по сайту -->
+        <!-- Контейнер для білої BMW на прозорому фоні -->
         <div class="car-track">
             <div class="hero-car-wrapper" id="carWrapper">
-                <img src="https://pngimg.com/uploads/bmw/bmw_PNG99540.png" alt="BMW White" class="hero-car-img">
+                <img src="https://pngimg.com/uploads/bmw/bmw_PNG99540.png" alt="BMW M4 White" class="hero-car-img">
                 <div class="headlights-glow"></div>
             </div>
         </div>
@@ -63,7 +61,7 @@
         </div>
     </section>
 
-    <!-- Форма запису (Booking Section) -->
+    <!-- Форма запису -->
     <section class="booking-section" id="booking">
         <div class="booking-container" data-aos="flip-left" data-aos-duration="1000">
             <h2>ЗАПИС НА СЕРВІС</h2>
@@ -102,11 +100,26 @@
         <p>© 2026 M-POWER AUTO SERVICE. Всі права захищені.</p>
     </footer>
 
-    <!-- Скрипт для анімацій при скролі -->
+    <!-- Скрипт анімацій появи при скролі -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init({
-            once: true // Анімація спрацьовує 1 раз при прокручуванні
+            once: true
+        });
+    </script>
+
+    <!-- Скрипт для зупинки машини та засвічування фар -->
+    <script>
+        const car = document.getElementById('carWrapper');
+        const formInputs = document.querySelectorAll('.neon-form input, .neon-form select');
+
+        formInputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                if (car) {
+                    car.classList.add('car-stopped');
+                    car.classList.add('headlights-on');
+                }
+            });
         });
     </script>
 </body>
