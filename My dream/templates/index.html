@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M-POWER AUTO SERVICE | Преміальний Автосервіс</title>
-    <!-- Шрифти та Іконки -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Анімації AOS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <!-- Стилі CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <!-- Шапка сайту -->
     <header class="header">
         <div class="logo">
             <span>M-POWER</span> AUTO
@@ -22,7 +18,6 @@
         <a href="#booking" class="btn-neon-sm">Записатись</a>
     </header>
 
-    <!-- Головний банер з анімованим авто -->
     <section class="hero">
         <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
             <span class="badge-neon">PREMIUM SERVICE</span>
@@ -33,20 +28,14 @@
             </div>
         </div>
 
-        <!-- Контейнер для авто з окремими колесами -->
+        <!-- Надійне фото BMW без прострочених посилань -->
         <div class="car-track">
             <div class="hero-car-wrapper" id="carWrapper">
-                <!-- Кузов авто -->
-                <img src="https://i.ibb.co/5R3G4vX/bmw-body.png" alt="BMW Body" class="car-body">
-
-                <!-- Окремі колеса, які прокручуються -->
-                <div class="wheel wheel-front"></div>
-                <div class="wheel wheel-rear"></div>
+                <img src="https://pngimg.com/uploads/bmw/bmw_PNG99540.png" alt="BMW M4" class="car-body">
             </div>
         </div>
     </section>
 
-    <!-- Переваги -->
     <section class="features">
         <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
             <i class="fa-solid fa-gauge-high icon-neon"></i>
@@ -65,7 +54,6 @@
         </div>
     </section>
 
-    <!-- Форма запису -->
     <section class="booking-section" id="booking">
         <div class="booking-container" data-aos="flip-left" data-aos-duration="1000">
             <h2>ЗАПИС НА СЕРВІС</h2>
@@ -104,13 +92,9 @@
         <p>© 2026 M-POWER AUTO SERVICE. Всі права захищені.</p>
     </footer>
 
-    <!-- Скрипт анімацій появи -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({
-            once: true
-        });
+        AOS.init({ once: true });
     </script>
-
 </body>
 </html>

@@ -38,7 +38,6 @@ body {
     text-shadow: 0 0 10px #00ff66;
 }
 
-/* Кнопки */
 .btn-neon-sm {
     padding: 10px 20px;
     background: transparent;
@@ -123,37 +122,18 @@ body {
     z-index: 2;
 }
 
-/* Повільне виконання виїзду (8 секунд) */
 .hero-car-wrapper {
     position: relative;
     width: 100%;
-    animation: slowDriveIn 8s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+    /* Повільний розгін з затримкою: 1км/год -> прискорення -> плавність */
+    animation: realisticDriveIn 4.5s cubic-bezier(0.42, 0, 0.2, 1) forwards;
 }
 
 .car-body {
     width: 100%;
     height: auto;
     display: block;
-    filter: drop-shadow(0 15px 12px rgba(0, 0, 0, 0.8));
-}
-
-/* Колеса авто */
-.wheel {
-    position: absolute;
-    bottom: 8%;
-    width: 15.5%;
-    height: 31%;
-    background: url('https://i.ibb.co/v4v85yN/bmw-wheel.png') no-repeat center center;
-    background-size: contain;
-    animation: spinWheels 8s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
-}
-
-.wheel-front {
-    left: 17.5%;
-}
-
-.wheel-rear {
-    right: 18.2%;
+    filter: drop-shadow(0 20px 15px rgba(0, 0, 0, 0.9));
 }
 
 /* Переваги */
@@ -280,27 +260,28 @@ footer {
     font-size: 14px;
 }
 
-/* Анімація плавного викочування */
-@keyframes slowDriveIn {
+/* Реалістична анімація розгону авто */
+@keyframes realisticDriveIn {
     0% {
-        transform: translateX(130%);
+        transform: translateX(140%);
+        opacity: 0;
+    }
+    30% {
+        /* Дуже повільний виїзд корми (типу 1 км/год) */
+        transform: translateX(110%);
+        opacity: 1;
+    }
+    70% {
+        /* Набір швидкості */
+        transform: translateX(25%);
     }
     100% {
+        /* Плавне гальмування на місці */
         transform: translateX(0);
+        opacity: 1;
     }
 }
 
-/* Анімація кручення коліс */
-@keyframes spinWheels {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(-1440deg);
-    }
-}
-
-/* Адаптивність для смартфонів */
 @media (max-width: 768px) {
     .hero {
         flex-direction: column;
