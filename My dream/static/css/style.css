@@ -1,0 +1,276 @@
+/* Основні скидання та шрифти */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0d0f12;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Шапка (Header) */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background: rgba(13, 15, 18, 0.9);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: #00ff66;
+    text-shadow: 0 0 10px #00ff66;
+}
+
+/* Кнопки */
+.btn-neon-sm {
+    padding: 10px 20px;
+    background: transparent;
+    color: #00ff66;
+    border: 2px solid #00ff66;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+}
+
+.btn-neon-sm:hover {
+    background: #00ff66;
+    color: #000;
+    box-shadow: 0 0 20px #00ff66;
+}
+
+.btn-neon {
+    display: inline-block;
+    padding: 15px 35px;
+    background: #00ff66;
+    color: #000;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0 0 25px #00ff66;
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+.btn-neon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px #00ff66;
+}
+
+/* Головний банер (Hero Section) */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 120px 5% 50px;
+    background: radial-gradient(circle at 70% 50%, #1a2332 0%, #0d0f12 70%);
+}
+
+.hero-content {
+    max-width: 600px;
+    z-index: 2;
+}
+
+.badge-neon {
+    background: rgba(0, 255, 102, 0.1);
+    color: #00ff66;
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid #00ff66;
+    font-size: 12px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.hero-content h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    margin: 20px 0;
+    line-height: 1.2;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.hero-content p {
+    color: #a0a5b5;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.hero-car {
+    position: relative;
+    z-index: 2;
+    max-width: 55%;
+}
+
+.hero-car img {
+    width: 100%;
+    filter: drop-shadow(0 0 30px rgba(0, 255, 102, 0.4));
+    border-radius: 10px;
+}
+
+/* Переваги */
+.features {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 60px 5%;
+    background: #12151b;
+}
+
+.feature-card {
+    flex: 1;
+    background: #181c24;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+    text-align: center;
+}
+
+.feature-card:hover {
+    border-color: #00ff66;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 255, 102, 0.15);
+}
+
+.icon-neon {
+    font-size: 40px;
+    color: #00ff66;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #8a8f9d;
+    font-size: 14px;
+}
+
+/* Секція Запису */
+.booking-section {
+    padding: 80px 5%;
+    display: flex;
+    justify-content: center;
+}
+
+.booking-container {
+    background: #151821;
+    border: 2px solid #00ff66;
+    border-radius: 15px;
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 0 30px rgba(0, 255, 102, 0.2);
+}
+
+.booking-container h2 {
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    color: #00ff66;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #a0a5b5;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ddd;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px;
+    background: #0d0f12;
+    border: 1px solid #333;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #00ff66;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+}
+
+.btn-neon-submit {
+    width: 100%;
+    padding: 15px;
+    background: #00ff66;
+    color: #000;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 0 20px #00ff66;
+    transition: 0.3s;
+}
+
+.btn-neon-submit:hover {
+    box-shadow: 0 0 35px #00ff66;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #0a0b0e;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Адаптивність під мобільні телефони */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 100px;
+    }
+
+    .hero-car {
+        max-width: 100%;
+        margin-top: 30px;
+    }
+
+    .features {
+        flex-direction: column;
+    }
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+}
