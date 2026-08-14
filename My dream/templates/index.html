@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запис на автосервіс | Франкфурт</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .booking-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="booking-card">
+    <h2>Запис на сервіс</h2>
+    <form action="/api/booking" method="POST">
+        <div class="form-group">
+            <label for="name">Ваше ім'я:</label>
+            <input type="text" id="name" name="client_name" placeholder="Олександр" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Номер телефону (WhatsApp / Telegram):</label>
+            <input type="tel" id="phone" name="client_phone" placeholder="+49 170 1234567" required>
+        </div>
+
+        <div class="form-group">
+            <label for="service">Оберіть послугу:</label>
+            <select id="service" name="service_type">
+                <option value="Комп'ютерна діагностика">Комп'ютерна діагностика</option>
+                <option value="Заміна мастила та фільтрів">Заміна мастила та фільтрів</option>
+                <option value="Ремонт ходової частини">Ремонт ходової частини</option>
+            </select>
+        </div>
+
+        <button type="submit">Записатися</button>
+    </form>
+</div>
+
+</body>
+</html>
