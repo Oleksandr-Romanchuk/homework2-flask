@@ -22,7 +22,7 @@
         <a href="#booking" class="btn-neon-sm">Записатись</a>
     </header>
 
-    <!-- Головний банер з Гаражем та Анімованим Авто -->
+    <!-- Головний банер -->
     <section class="hero">
         <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
             <span class="badge-neon">PREMIUM SERVICE</span>
@@ -33,51 +33,10 @@
             </div>
         </div>
 
-        <!-- Інтерактивна сцена Гаража -->
-        <div class="garage-scene">
-            <!-- Будівля гаража СТО -->
-            <div class="garage-building">
-                <div class="garage-sign">M-POWER GARAGE</div>
-                <div class="garage-door"></div>
-            </div>
-
-            <!-- Автомобіль у зборі -->
-            <div class="car-container" id="car">
-                <!-- Світло від фар -->
-                <div class="headlight-beam"></div>
-
-                <!-- Кузов машини -->
-                <img src="https://svgshare.com/i/13sX.svg" alt="BMW Body" class="car-body-svg">
-
-                <!-- Переднє та Заднє колеса (SVG спиці) -->
-                <div class="wheel wheel-front">
-                    <svg viewBox="0 0 100 100" class="wheel-svg">
-                        <circle cx="50" cy="50" r="45" stroke="#444" stroke-width="8" fill="#111" />
-                        <circle cx="50" cy="50" r="35" stroke="#00ff66" stroke-width="3" fill="none" />
-                        <line x1="50" y1="5" x2="50" y2="95" stroke="#ccc" stroke-width="4" />
-                        <line x1="5" y1="50" x2="95" y2="50" stroke="#ccc" stroke-width="4" />
-                        <line x1="18" y1="18" x2="82" y2="82" stroke="#ccc" stroke-width="3" />
-                        <line x1="18" y1="82" x2="82" y2="18" stroke="#ccc" stroke-width="3" />
-                        <circle cx="50" cy="50" r="12" fill="#00ff66" />
-                    </svg>
-                </div>
-                <div class="wheel wheel-rear">
-                    <svg viewBox="0 0 100 100" class="wheel-svg">
-                        <circle cx="50" cy="50" r="45" stroke="#444" stroke-width="8" fill="#111" />
-                        <circle cx="50" cy="50" r="35" stroke="#00ff66" stroke-width="3" fill="none" />
-                        <line x1="50" y1="5" x2="50" y2="95" stroke="#ccc" stroke-width="4" />
-                        <line x1="5" y1="50" x2="95" y2="50" stroke="#ccc" stroke-width="4" />
-                        <line x1="18" y1="18" x2="82" y2="82" stroke="#ccc" stroke-width="3" />
-                        <line x1="18" y1="82" x2="82" y2="18" stroke="#ccc" stroke-width="3" />
-                        <circle cx="50" cy="50" r="12" fill="#00ff66" />
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Дорога з розміткою -->
-            <div class="road">
-                <div class="road-line"></div>
-            </div>
+        <!-- Реалістичне авто з ефектним виїздом та підсвіткою -->
+        <div class="car-stage">
+            <div class="car-glow"></div>
+            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1200&auto=format&fit=crop" alt="BMW M4" class="real-bmw-img">
         </div>
     </section>
 
@@ -139,49 +98,9 @@
         <p>© 2026 M-POWER AUTO SERVICE. Всі права захищені.</p>
     </footer>
 
-    <!-- JS анімація AOS та Фізика Виїзду Авто -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init({ once: true });
-
-        // Скрипт фізичного виїзду машини з гаража
-        window.addEventListener('DOMContentLoaded', () => {
-            const car = document.getElementById('car');
-            const wheels = document.querySelectorAll('.wheel-svg');
-            const headlight = document.querySelector('.headlight-beam');
-
-            let position = -350; // Початкова позиція всередині гаража
-            let speed = 0.5;      // Початкова швидкість (1 км/год)
-            let rotation = 0;     // Градус обертання коліс
-            let targetPos = 40;   // Точка зупинки перед гаражем
-
-            function animateDriveOut() {
-                if (position < targetPos) {
-                    // Поступове прискорення
-                    if (position < -100) {
-                        speed += 0.03; // Набір швидкості (1 -> 3 км/год)
-                    } else {
-                        speed = Math.max(0.2, speed - 0.04); // Плавне гальмування
-                    }
-
-                    position += speed;
-                    rotation -= speed * 8; // Синхронізація обертання коліс зі швидкістю
-
-                    car.style.transform = `translateX(${position}px)`;
-                    wheels.forEach(w => w.style.transform = `rotate(${rotation}deg)`);
-
-                    requestAnimationFrame(animateDriveOut);
-                } else {
-                    // Машина зупинилася — вмикаємо світло фар
-                    headlight.style.opacity = "1";
-                }
-            }
-
-            // Запуск анімації через 1 секунду після відкриття воріт
-            setTimeout(() => {
-                animateDriveOut();
-            }, 1000);
-        });
     </script>
 </body>
 </html>
