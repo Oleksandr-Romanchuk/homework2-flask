@@ -1,229 +1,24 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Контейнер блоку тексту перетворюємо на рекламний щит/вивіску на будівлі */
+.hero-content {
+    background: rgba(10, 10, 12, 0.85);
+    border: 2px solid #00ff66;
+    border-radius: 4px;
+    padding: 35px;
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.2), inset 0 0 15px rgba(0, 0, 0, 0.8);
+    max-width: 550px;
+    backdrop-filter: blur(5px);
 }
 
-body {
-    background-color: #0d0f12;
+/* Текст вивіски в стилі Sin City */
+.hero-content h1 {
     color: #ffffff;
-    font-family: 'Roboto', sans-serif;
-    overflow-x: hidden;
-}
-
-/* Шапка */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 5%;
-    background: rgba(13, 15, 18, 0.9);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0, 255, 102, 0.2);
-}
-
-.logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 24px;
+    text-transform: uppercase;
     font-weight: 900;
     letter-spacing: 2px;
-}
-
-.logo span {
-    color: #00ff66;
-    text-shadow: 0 0 10px #00ff66;
-}
-
-.btn-neon-sm {
-    padding: 10px 20px;
-    background: transparent;
-    color: #00ff66;
-    border: 2px solid #00ff66;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.btn-neon-sm:hover {
-    background: #00ff66;
-    color: #000;
-    box-shadow: 0 0 20px #00ff66;
-}
-
-.btn-neon {
-    display: inline-block;
-    padding: 15px 35px;
-    background: #00ff66;
-    color: #000;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    text-decoration: none;
-    border-radius: 5px;
-    box-shadow: 0 0 25px #00ff66;
-    transition: 0.3s;
-    margin-top: 20px;
-}
-
-.btn-neon:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 40px #00ff66;
-}
-
-/* Секція Hero з 3D */
-.hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 120px 5% 50px;
-    background: radial-gradient(circle at 50% 50%, #1a2332 0%, #0d0f12 80%);
-    overflow: hidden;
-}
-
-.hero-content {
-    max-width: 500px;
-    z-index: 2;
-}
-
-.badge-neon {
-    background: rgba(0, 255, 102, 0.1);
-    color: #00ff66;
-    padding: 5px 15px;
-    border-radius: 20px;
-    border: 1px solid #00ff66;
-    font-size: 12px;
-    font-family: 'Orbitron', sans-serif;
-}
-
-.hero-content h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 44px;
-    margin: 20px 0;
-    line-height: 1.2;
+    text-shadow: 3px 3px 0px #000000, 0 0 10px rgba(0, 255, 102, 0.6);
 }
 
 .hero-content p {
-    color: #a0a5b5;
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-/* Контейнер для 3D моделі */
-#car-3d-container {
-    width: 55%;
-    height: 500px;
-    position: relative;
-    z-index: 2;
-}
-
-/* Переваги */
-.features {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 60px 5%;
-    background: #12151b;
-}
-
-.feature-card {
-    flex: 1;
-    background: #181c24;
-    padding: 30px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    text-align: center;
-}
-
-.icon-neon {
-    font-size: 40px;
-    color: #00ff66;
-    margin-bottom: 15px;
-}
-
-/* Секція Запису */
-.booking-section {
-    padding: 80px 5%;
-    display: flex;
-    justify-content: center;
-}
-
-.booking-container {
-    background: #151821;
-    border: 2px solid #00ff66;
-    border-radius: 15px;
-    padding: 40px;
-    width: 100%;
-    max-width: 600px;
-}
-
-.booking-container h2 {
-    font-family: 'Orbitron', sans-serif;
-    text-align: center;
-    color: #00ff66;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    text-align: center;
-    color: #a0a5b5;
-    margin-bottom: 30px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #ddd;
-}
-
-.form-group input, .form-group select {
-    width: 100%;
-    padding: 12px;
-    background: #0d0f12;
-    border: 1px solid #333;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 16px;
-}
-
-.btn-neon-submit {
-    width: 100%;
-    padding: 15px;
-    background: #00ff66;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #0a0b0e;
-    color: #555;
-}
-
-@media (max-width: 768px) {
-    .hero {
-        flex-direction: column;
-        padding-top: 100px;
-    }
-    #car-3d-container {
-        width: 100%;
-        height: 300px;
-    }
-    .features {
-        flex-direction: column;
-    }
+    color: #b3b3b3;
+    font-weight: 500;
 }

@@ -15,204 +15,124 @@ let xPos = canvas.width + 50;
 const speed = 2.5;
 let wheelAngle = 0;
 
-// Малювання цегляної стіни (стиль Нідерланди / NRW)
-function drawBrickWall() {
-    const wallHeight = 110;
-    const yStart = canvas.height / 2 - 80;
+function drawSinCityScene() {
+    const roadHeight = 45;
+    const yRoad = canvas.height - roadHeight;
 
-    // Базовий терракотово-цегляний колір
-    ctx.fillStyle = '#2b1810';
-    ctx.fillRect(0, yStart, canvas.width, wallHeight);
+    // 1. Асфальтова дорога в самому низу екрана
+    ctx.fillStyle = '#0a0a0c';
+    ctx.fillRect(0, yRoad, canvas.width, roadHeight);
 
-    // Розшивка швів
-    ctx.strokeStyle = '#1a0e0a';
+    // Розмітка дороги
+    ctx.strokeStyle = '#333333';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([20, 20]);
+    ctx.beginPath();
+    ctx.moveTo(0, yRoad + 20);
+    ctx.lineTo(canvas.width, yRoad + 20);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 2. Фасад будівлі СТО (ліва частина екрана - стиль "Місто Гріхів")
+    const buildingWidth = canvas.width * 0.45;
+
+    // Темний силует монолітної будівлі
+    ctx.fillStyle = '#0d0e12';
+    ctx.fillRect(0, 0, buildingWidth, yRoad);
+
+    // Фактурні вертикальні лінії фасаду (нуарний стиль)
+    ctx.strokeStyle = '#161820';
     ctx.lineWidth = 1;
-
-    const brickWidth = 20;
-    const brickHeight = 8;
-
-    for (let y = yStart; y < yStart + wallHeight; y += brickHeight) {
-        let row = Math.floor((y - yStart) / brickHeight);
-        let xOffset = (row % 2 === 0) ? 0 : brickWidth / 2;
-
+    for (let x = 0; x < buildingWidth; x += 15) {
         ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, yRoad);
         ctx.stroke();
-
-        for (let x = xOffset; x < canvas.width; x += brickWidth) {
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(x, y + brickHeight);
-            ctx.stroke();
-        }
     }
 
-    // Декоративне неонове графіті на стіні
-    ctx.font = 'bold 16px sans-serif';
-    ctx.fillStyle = '#00ff66';
-    ctx.shadowColor = '#00ff66';
-    ctx.shadowBlur = 8;
-    ctx.fillText('M-POWER CUSTOMS', 120, yStart + 40);
-    ctx.shadowBlur = 0;
-}
+    // Арка заїзду (гаражні ворота, куди ховається авто)
+    const garageWidth = 160;
+    const garageHeight = 90;
+    const yGarage = yRoad - garageHeight;
+    const xGarage = buildingWidth - garageWidth;
 
-// Малювання будівлі СТО ліворуч (куди прямує авто)
-function drawGarage(yBase) {
-    const gWidth = 140;
-    const gHeight = 100;
-    const xGar = 10;
-    const yGar = yBase - 60;
-
-    // Споруда гаража
-    ctx.fillStyle = '#151922';
-    ctx.fillRect(xGar, yGar, gWidth, gHeight);
-
-    // Ворота СТО
-    ctx.fillStyle = '#0a0d12';
-    ctx.strokeStyle = '#00ff66';
-    ctx.lineWidth = 2;
-    ctx.fillRect(xGar + 15, yGar + 30, gWidth - 30, gHeight - 30);
-    ctx.strokeRect(xGar + 15, yGar + 30, gWidth - 30, gHeight - 30);
-
-    // Неоновий вказівник "GARAGE / SERVICE"
-    ctx.fillStyle = '#00ff66';
-    ctx.shadowColor = '#00ff66';
-    ctx.shadowBlur = 10;
-    ctx.fillRect(xGar + 20, yGar + 10, gWidth - 40, 14);
-
+    // Глибина гаража (темнота всередині)
     ctx.fillStyle = '#000000';
-    ctx.font = 'bold 9px sans-serif';
-    ctx.fillText('ENTRANCE ➔', xGar + 30, yGar + 21);
+    ctx.fillRect(xGarage, yGarage, garageWidth, garageHeight);
+
+    // Неонова рамка входу СТО в стилі Sin City
+    ctx.strokeStyle = '#00ff66';
+    ctx.shadowColor = '#00ff66';
+    ctx.shadowBlur = 12;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(xGarage, yGarage, garageWidth, garageHeight);
     ctx.shadowBlur = 0;
 }
 
-// Вуличні ліхтарі та дерева
-function drawUrbanElements(yBase) {
-    // Дерева на задньому плані
-    [280, 480].forEach(xTree => {
-        ctx.fillStyle = '#112211';
-        ctx.beginPath();
-        ctx.arc(xTree, yBase - 50, 25, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = '#1a0e0a';
-        ctx.fillRect(xTree - 3, yBase - 30, 6, 30);
-    });
-
-    // Ліхтар із конусом світла
-    const xLamp = 220;
-    const yLamp = yBase - 90;
-
-    ctx.strokeStyle = '#444';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(xLamp, yBase);
-    ctx.lineTo(xLamp, yLamp);
-    ctx.lineTo(xLamp - 15, yLamp);
-    ctx.stroke();
-
-    // Світловий конус
-    ctx.fillStyle = 'rgba(255, 255, 200, 0.08)';
-    ctx.beginPath();
-    ctx.moveTo(xLamp - 15, yLamp);
-    ctx.lineTo(xLamp - 50, yBase);
-    ctx.lineTo(xLamp + 20, yBase);
-    ctx.closePath();
-    ctx.fill();
-}
-
-function drawBackground() {
-    const yBase = canvas.height / 2 + 35;
-
-    // 1. Цегляна стіна
-    drawBrickWall();
-
-    // 2. Дерева та ліхтарі
-    drawUrbanElements(yBase);
-
-    // 3. Дорога
-    ctx.fillStyle = '#121418';
-    ctx.fillRect(0, yBase - 15, canvas.width, 50);
-
-    // Дорожня розмітка
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([15, 15]);
-    ctx.beginPath();
-    ctx.moveTo(0, yBase + 10);
-    ctx.lineTo(canvas.width, yBase + 10);
-    ctx.stroke();
-    ctx.setLineDash([]); // Скидання пунктиру
-
-    // 4. СТО / Гараж
-    drawGarage(yBase);
-}
-
-function drawRealisticCar(x, y) {
+function drawSinCityCar(x, y) {
     ctx.save();
     ctx.translate(x, y);
 
     // Тінь
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
     ctx.beginPath();
-    ctx.ellipse(140, 95, 130, 12, 0, 0, Math.PI * 2);
+    ctx.ellipse(140, 85, 130, 8, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // Кислотно-салатовий кузов
+    // Кузов (Кислотно-зелений на контрасті з чорним нуаром)
     const bodyGradient = ctx.createLinearGradient(0, 20, 0, 80);
     bodyGradient.addColorStop(0, '#7eff33');
     bodyGradient.addColorStop(0.4, '#00ff66');
-    bodyGradient.addColorStop(1, '#00b344');
+    bodyGradient.addColorStop(1, '#008033');
 
     ctx.fillStyle = bodyGradient;
     ctx.shadowColor = '#00ff66';
     ctx.shadowBlur = 15;
 
     ctx.beginPath();
-    ctx.moveTo(10, 75);
-    ctx.lineTo(25, 50);
-    ctx.lineTo(70, 45);
-    ctx.lineTo(110, 15);
-    ctx.lineTo(190, 15);
-    ctx.lineTo(230, 45);
-    ctx.lineTo(270, 55);
-    ctx.lineTo(275, 75);
-    ctx.lineTo(260, 85);
-    ctx.lineTo(20, 85);
+    ctx.moveTo(10, 65);
+    ctx.lineTo(25, 40);
+    ctx.lineTo(70, 35);
+    ctx.lineTo(110, 10);
+    ctx.lineTo(190, 10);
+    ctx.lineTo(230, 35);
+    ctx.lineTo(270, 45);
+    ctx.lineTo(275, 65);
+    ctx.lineTo(260, 75);
+    ctx.lineTo(20, 75);
     ctx.closePath();
     ctx.fill();
     ctx.shadowBlur = 0;
 
-    // Скло
-    ctx.fillStyle = '#111622';
+    // Глибоке тоноване скло
+    ctx.fillStyle = '#050508';
     ctx.beginPath();
-    ctx.moveTo(112, 18);
-    ctx.lineTo(188, 18);
-    ctx.lineTo(222, 45);
-    ctx.lineTo(75, 45);
+    ctx.moveTo(112, 13);
+    ctx.lineTo(188, 13);
+    ctx.lineTo(222, 35);
+    ctx.lineTo(75, 35);
     ctx.closePath();
     ctx.fill();
 
-    // Світло фар (промінь на дорогу)
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    // Потужний промінь фари
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     ctx.beginPath();
-    ctx.moveTo(5, 56);
-    ctx.lineTo(-80, 40);
-    ctx.lineTo(-80, 75);
+    ctx.moveTo(5, 48);
+    ctx.lineTo(-120, 20);
+    ctx.lineTo(-120, 70);
     ctx.closePath();
     ctx.fill();
 
-    // Передні фари
+    // Фара
     ctx.fillStyle = '#ffffff';
     ctx.shadowColor = '#ffffff';
-    ctx.shadowBlur = 10;
-    ctx.fillRect(5, 52, 12, 8);
+    ctx.shadowBlur = 12;
+    ctx.fillRect(5, 44, 10, 8);
     ctx.shadowBlur = 0;
 
     // Колеса
-    drawWheel(65, 85, wheelAngle);
-    drawWheel(215, 85, wheelAngle);
+    drawWheel(65, 75, wheelAngle);
+    drawWheel(215, 75, wheelAngle);
 
     ctx.restore();
 }
@@ -221,29 +141,29 @@ function drawWheel(x, y, angle) {
     ctx.save();
     ctx.translate(x, y);
 
-    ctx.fillStyle = '#1a1a1a';
+    ctx.fillStyle = '#0a0a0c';
     ctx.beginPath();
-    ctx.arc(0, 0, 26, 0, Math.PI * 2);
+    ctx.arc(0, 0, 22, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = '#111111';
+    ctx.fillStyle = '#1a1a1d';
     ctx.beginPath();
-    ctx.arc(0, 0, 17, 0, Math.PI * 2);
+    ctx.arc(0, 0, 14, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.rotate(angle);
     ctx.strokeStyle = '#00ff66';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.5;
     for (let i = 0; i < 5; i++) {
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(Math.cos((i * Math.PI * 2) / 5) * 16, Math.sin((i * Math.PI * 2) / 5) * 16);
+        ctx.lineTo(Math.cos((i * Math.PI * 2) / 5) * 13, Math.sin((i * Math.PI * 2) / 5) * 13);
         ctx.stroke();
     }
 
     ctx.fillStyle = '#00ff66';
     ctx.beginPath();
-    ctx.arc(0, 0, 5, 0, Math.PI * 2);
+    ctx.arc(0, 0, 4, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.restore();
@@ -252,17 +172,22 @@ function drawWheel(x, y, angle) {
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Малюємо весь урбаністичний фон
-    drawBackground();
+    // Малюємо нуарний фасад та дорогу внизу
+    drawSinCityScene();
 
-    const yPos = canvas.height / 2 - 40;
-    drawRealisticCar(xPos, yPos);
+    // Позиція авто прив'язана до самої дороги внизу
+    const yPos = canvas.height - 110;
+
+    // Кліпування: машина виїжджає справа і заїжджає всередину будівлі ліворуч
+    ctx.save();
+    drawSinCityCar(xPos, yPos);
+    ctx.restore();
 
     xPos -= speed;
     wheelAngle -= speed * 0.05;
 
-    // Перезапуск циклу руху
-    if (xPos < -300) {
+    // Перезапуск анімації
+    if (xPos < -200) {
         xPos = canvas.width + 50;
     }
 
