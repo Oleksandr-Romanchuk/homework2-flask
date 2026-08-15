@@ -3,104 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M-POWER AUTO SERVICE | Преміальний Автосервіс</title>
-    <!-- Шрифти та Іконки -->
+    <title>M-POWER AUTO SERVICE | 3D Drive</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Анімації AOS -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <!-- Стилі CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Підключення бібліотеки Three.js та завантажувача 3D-моделей (GLTF/GLB) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
 
-    <!-- Шапка сайту -->
     <header class="header">
-        <div class="logo">
-            <span>M-POWER</span> AUTO
-        </div>
+        <div class="logo"><span>M-POWER</span> AUTO</div>
         <a href="#booking" class="btn-neon-sm">Записатись</a>
     </header>
 
-    <!-- Головний банер -->
     <section class="hero">
-        <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
-            <span class="badge-neon">PREMIUM SERVICE</span>
+        <div class="hero-content">
+            <span class="badge-neon">3D PREMIUM EXPERIENCE</span>
             <h1>ОБСЛУГОВУВАННЯ ТВОЄЇ МРІЇ</h1>
             <p>Діагностика, ремонт та чип-тюнінг авто будь-якої складності з гарантією якості.</p>
-            <div class="hero-btns">
-                <a href="#booking" class="btn-neon">Записатися на сервіс <i class="fa-solid fa-bolt"></i></a>
-            </div>
+            <a href="#booking" class="btn-neon">Записатися на сервіс <i class="fa-solid fa-bolt"></i></a>
         </div>
 
-        <!-- Реалістичне авто з ефектним виїздом та підсвіткою -->
-        <div class="car-stage">
-            <div class="car-glow"></div>
-            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1200&auto=format&fit=crop" alt="BMW M4" class="real-bmw-img">
-        </div>
+        <!-- Контейнер для 3D полотна Three.js -->
+        <div id="car-3d-container"></div>
     </section>
 
-    <!-- Переваги -->
-    <section class="features">
-        <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
-            <i class="fa-solid fa-gauge-high icon-neon"></i>
-            <h3>Точна діагностика</h3>
-            <p>Дилерське обладнання для глибокого сканування всіх систем.</p>
-        </div>
-        <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
-            <i class="fa-solid fa-screwdrivers-guns icon-neon"></i>
-            <h3>Досвідчені майстри</h3>
-            <p>Понад 10 років роботи з преміальними марками авто.</p>
-        </div>
-        <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
-            <i class="fa-solid fa-shield-halved icon-neon"></i>
-            <h3>Гарантія якості</h3>
-            <p>Офіційна гарантія на всі виконані роботи та запчастини.</p>
-        </div>
-    </section>
-
-    <!-- Форма запису -->
-    <section class="booking-section" id="booking">
-        <div class="booking-container" data-aos="flip-left" data-aos-duration="1000">
-            <h2>ЗАПИС НА СЕРВІС</h2>
-            <p class="subtitle">Залиште заявку, і ми зателефонуємо протягом 5 хвилин!</p>
-
-            <form action="/booking" method="POST" class="neon-form">
-                <div class="form-group">
-                    <label for="client_name"><i class="fa-solid fa-user"></i> Ваше ім'я:</label>
-                    <input type="text" id="client_name" name="client_name" placeholder="Олександр" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="client_phone"><i class="fa-solid fa-phone"></i> Номер телефону:</label>
-                    <input type="tel" id="client_phone" name="client_phone" placeholder="+380..." required>
-                </div>
-
-                <div class="form-group">
-                    <label for="service_type"><i class="fa-solid fa-car-wrench"></i> Оберіть послугу:</label>
-                    <select id="service_type" name="service_type" required>
-                        <option value="Комп'ютерна діагностика">Комп'ютерна діагностика</option>
-                        <option value="Технічне обслуговування (ТО)">Технічне обслуговування (ТО)</option>
-                        <option value="Чип-тюнінг та прошивка">Чип-тюнінг та прошивка</option>
-                        <option value="Ремонт ходової частини">Ремонт ходової частини</option>
-                        <option value="Детайлінг та поліровка">Детайлінг та поліровка</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn-neon-submit">
-                    ПІДТВЕРДИТИ ЗАПИС <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2026 M-POWER AUTO SERVICE. Всі права захищені.</p>
-    </footer>
-
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-        AOS.init({ once: true });
-    </script>
+    <!-- Скрипт керування 3D машиною -->
+    <script src="{{ url_for('static', filename='js/3d-car.js') }}"></script>
 </body>
 </html>
