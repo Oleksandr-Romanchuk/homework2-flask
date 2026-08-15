@@ -27,13 +27,16 @@ function drawRealisticCar(x, y) {
     ctx.ellipse(140, 95, 130, 12, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // 2. Кузов машини (передом направлена вліво)
+    // 2. Кузов машини (кислотний неоново-салатовий градієнт з металевим відблиском)
     const bodyGradient = ctx.createLinearGradient(0, 20, 0, 80);
-    bodyGradient.addColorStop(0, '#ffffff');
-    bodyGradient.addColorStop(0.5, '#e6e6e6');
-    bodyGradient.addColorStop(1, '#b0b5bc');
+    bodyGradient.addColorStop(0, '#7eff33');
+    bodyGradient.addColorStop(0.4, '#00ff66');
+    bodyGradient.addColorStop(1, '#00b344');
 
     ctx.fillStyle = bodyGradient;
+    ctx.shadowColor = '#00ff66';
+    ctx.shadowBlur = 20; // Ефектне неонове світіння навколо кузова
+
     ctx.beginPath();
     ctx.moveTo(10, 75);
     ctx.lineTo(25, 50);
@@ -47,6 +50,7 @@ function drawRealisticCar(x, y) {
     ctx.lineTo(20, 85);
     ctx.closePath();
     ctx.fill();
+    ctx.shadowBlur = 0; // Скидаємо тінь для інших елементів
 
     // 3. Тоноване скло
     ctx.fillStyle = '#111622';
@@ -66,9 +70,9 @@ function drawRealisticCar(x, y) {
     ctx.lineTo(100, 42);
     ctx.stroke();
 
-    // 4. Передні фари (світять ліворуч, куди їде авто)
-    ctx.fillStyle = '#00ff66';
-    ctx.shadowColor = '#00ff66';
+    // 4. Передні фари (яскравий білий LED)
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = '#ffffff';
     ctx.shadowBlur = 15;
     ctx.fillRect(5, 52, 12, 8);
     ctx.shadowBlur = 0;
@@ -92,14 +96,14 @@ function drawWheel(x, y, angle) {
     ctx.fill();
 
     // Диск
-    ctx.fillStyle = '#cccccc';
+    ctx.fillStyle = '#111111';
     ctx.beginPath();
     ctx.arc(0, 0, 17, 0, Math.PI * 2);
     ctx.fill();
 
     // Спиці
     ctx.rotate(angle);
-    ctx.strokeStyle = '#111111';
+    ctx.strokeStyle = '#00ff66';
     ctx.lineWidth = 3;
     for (let i = 0; i < 5; i++) {
         ctx.beginPath();
@@ -108,7 +112,7 @@ function drawWheel(x, y, angle) {
         ctx.stroke();
     }
 
-    // Супорт
+    // Центр диска
     ctx.fillStyle = '#00ff66';
     ctx.beginPath();
     ctx.arc(0, 0, 5, 0, Math.PI * 2);
@@ -125,10 +129,8 @@ function animate() {
 
     drawRealisticCar(xPos, yPos);
 
-    // Зменшуємо xPos — машина рухається ВЛІВО
+    // Рух машини вліво
     xPos -= speed;
-
-    // Обертаємо колеса у зворотний бік відповідаючи руху вліво
     wheelAngle -= speed * 0.05;
 
     // Коли машина виїжджає за ліву межу, повертаємо її направо
