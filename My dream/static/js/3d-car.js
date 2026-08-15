@@ -12,8 +12,8 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-// Параметри машини
-let xPos = -300; // Початкова позиція за межами екрана ліворуч
+// Параметри машини: стартує справа за межами екрана
+let xPos = canvas.width + 50;
 const speed = 2.5; // Швидкість руху
 let wheelAngle = 0; // Кут обертання коліс
 
@@ -27,7 +27,7 @@ function drawRealisticCar(x, y) {
     ctx.ellipse(140, 95, 130, 12, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // 2. Кузов машини (Спортивний седан BMW)
+    // 2. Кузов машини (передом направлена вліво)
     const bodyGradient = ctx.createLinearGradient(0, 20, 0, 80);
     bodyGradient.addColorStop(0, '#ffffff');
     bodyGradient.addColorStop(0.5, '#e6e6e6');
@@ -58,7 +58,7 @@ function drawRealisticCar(x, y) {
     ctx.closePath();
     ctx.fill();
 
-    // Світловий відблиск на склі
+    // Відблиск на склі
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -66,38 +66,38 @@ function drawRealisticCar(x, y) {
     ctx.lineTo(100, 42);
     ctx.stroke();
 
-    // 4. Передні фари (LED сяйво)
+    // 4. Передні фари (світять ліворуч, куди їде авто)
     ctx.fillStyle = '#00ff66';
     ctx.shadowColor = '#00ff66';
     ctx.shadowBlur = 15;
     ctx.fillRect(5, 52, 12, 8);
-    ctx.shadowBlur = 0; // Скидання тіні
+    ctx.shadowBlur = 0;
 
-    // 5. Колеса з реалістичним обертанням
+    // 5. Колеса
     drawWheel(65, 85, wheelAngle);  // Переднє колесо
     drawWheel(215, 85, wheelAngle); // Заднє колесо
 
     ctx.restore();
 }
 
-// Функція малювання колеса з правильним обертанням спиць
+// Малювання колеса з обертанням
 function drawWheel(x, y, angle) {
     ctx.save();
     ctx.translate(x, y);
 
-    // Шина (Резина)
+    // Шина
     ctx.fillStyle = '#1a1a1a';
     ctx.beginPath();
     ctx.arc(0, 0, 26, 0, Math.PI * 2);
     ctx.fill();
 
-    // Диск (Метал)
+    // Диск
     ctx.fillStyle = '#cccccc';
     ctx.beginPath();
     ctx.arc(0, 0, 17, 0, Math.PI * 2);
     ctx.fill();
 
-    // Обертання спиць диска навколо власної осі
+    // Спиці
     ctx.rotate(angle);
     ctx.strokeStyle = '#111111';
     ctx.lineWidth = 3;
@@ -108,7 +108,7 @@ function drawWheel(x, y, angle) {
         ctx.stroke();
     }
 
-    // Центр диска (Супорт)
+    // Супорт
     ctx.fillStyle = '#00ff66';
     ctx.beginPath();
     ctx.arc(0, 0, 5, 0, Math.PI * 2);
@@ -121,18 +121,19 @@ function drawWheel(x, y, angle) {
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Центрування по висоті контейнера
     const yPos = canvas.height / 2 - 40;
 
     drawRealisticCar(xPos, yPos);
 
-    // Рух машини та обертання коліс
-    xPos += speed;
-    wheelAngle += speed * 0.05; // Швидкість обертання коліс прив'язана до швидкості руху
+    // Зменшуємо xPos — машина рухається ВЛІВО
+    xPos -= speed;
 
-    // Повернення на початок
-    if (xPos > canvas.width + 50) {
-        xPos = -300;
+    // Обертаємо колеса у зворотний бік відповідаючи руху вліво
+    wheelAngle -= speed * 0.05;
+
+    // Коли машина виїжджає за ліву межу, повертаємо її направо
+    if (xPos < -300) {
+        xPos = canvas.width + 50;
     }
 
     requestAnimationFrame(animate);
