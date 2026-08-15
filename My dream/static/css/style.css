@@ -75,7 +75,7 @@ body {
     box-shadow: 0 0 40px #00ff66;
 }
 
-/* Головний банер */
+/* Секція Hero */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -87,7 +87,7 @@ body {
 }
 
 .hero-content {
-    max-width: 500px;
+    max-width: 480px;
     z-index: 2;
 }
 
@@ -115,28 +115,127 @@ body {
     line-height: 1.6;
 }
 
-/* Трек для анімації машини */
-.car-track {
+/* Сцена з Гаражем та Авто */
+.garage-scene {
     position: relative;
     width: 55%;
+    height: 380px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.garage-building {
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    width: 260px;
+    height: 220px;
+    background: #181c24;
+    border: 3px solid #333;
+    border-radius: 10px 10px 0 0;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.garage-sign {
+    background: #00ff66;
+    color: #000;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 0 10px #00ff66;
+}
+
+/* Підйомні ворота гаража */
+.garage-door {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    width: 234px;
+    height: 180px;
+    background: linear-gradient(to bottom, #222 50%, #111 50%);
+    background-size: 100% 20px;
+    border: 2px solid #444;
+    animation: openGarage 2s ease-in-out forwards;
+    z-index: 3;
+}
+
+/* Контейнер Автомобіля */
+.car-container {
+    position: absolute;
+    bottom: 45px;
+    left: 0;
+    width: 320px;
     z-index: 2;
+    will-change: transform;
 }
 
-.hero-car-wrapper {
-    position: relative;
-    width: 100%;
-    /* Повільний розгін з затримкою: 1км/год -> прискорення -> плавність */
-    animation: realisticDriveIn 4.5s cubic-bezier(0.42, 0, 0.2, 1) forwards;
-}
-
-.car-body {
+.car-body-svg {
     width: 100%;
     height: auto;
     display: block;
-    filter: drop-shadow(0 20px 15px rgba(0, 0, 0, 0.9));
+    filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.7));
 }
 
-/* Переваги */
+/* Колеса з SVG спицями */
+.wheel {
+    position: absolute;
+    bottom: 4px;
+    width: 52px;
+    height: 52px;
+}
+
+.wheel-front {
+    left: 45px;
+}
+
+.wheel-rear {
+    right: 48px;
+}
+
+.wheel-svg {
+    width: 100%;
+    height: 100%;
+    transform-origin: center;
+}
+
+/* Промінь фар */
+.headlight-beam {
+    position: absolute;
+    top: 35px;
+    left: -120px;
+    width: 150px;
+    height: 40px;
+    background: linear-gradient(to left, rgba(0, 255, 102, 0.8), transparent);
+    clip-path: polygon(100% 30%, 0 0, 0 100%, 100% 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+/* Дорога */
+.road {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: #151821;
+    border-top: 3px solid #00ff66;
+}
+
+.road-line {
+    position: absolute;
+    top: 18px;
+    width: 100%;
+    height: 3px;
+    background: repeating-linear-gradient(to right, #00ff66 0, #00ff66 20px, transparent 20px, transparent 40px);
+}
+
+/* Секція Переваги */
 .features {
     display: flex;
     justify-content: space-between;
@@ -177,7 +276,7 @@ body {
     font-size: 14px;
 }
 
-/* Секція Запису */
+/* Форма Запису */
 .booking-section {
     padding: 80px 5%;
     display: flex;
@@ -260,28 +359,17 @@ footer {
     font-size: 14px;
 }
 
-/* Реалістична анімація розгону авто */
-@keyframes realisticDriveIn {
+/* Анімація підйому воріт гаража */
+@keyframes openGarage {
     0% {
-        transform: translateX(140%);
-        opacity: 0;
-    }
-    30% {
-        /* Дуже повільний виїзд корми (типу 1 км/год) */
-        transform: translateX(110%);
-        opacity: 1;
-    }
-    70% {
-        /* Набір швидкості */
-        transform: translateX(25%);
+        height: 180px;
     }
     100% {
-        /* Плавне гальмування на місці */
-        transform: translateX(0);
-        opacity: 1;
+        height: 15px;
     }
 }
 
+/* Адаптивність для смартфонів */
 @media (max-width: 768px) {
     .hero {
         flex-direction: column;
@@ -289,7 +377,7 @@ footer {
         padding-top: 100px;
     }
 
-    .car-track {
+    .garage-scene {
         width: 100%;
         margin-top: 30px;
     }
