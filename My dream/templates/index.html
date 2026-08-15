@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M-POWER AUTO | Sin City Edition</title>
+    <title>M-POWER AUTO | Garage Edition</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -17,20 +17,30 @@
     <!-- Головна секція Hero -->
     <section class="hero-section">
         <div class="hero-container">
-            <!-- Ліва частина: Рекламна вивіска на будівлі -->
-            <div class="hero-billboard">
-                <div class="billboard-badge">3D PREMIUM EXPERIENCE</div>
-                <h1>ОБСЛУГОВУВАННЯ<br>ТВОЄЇ МРІЇ</h1>
-                <p>Діагностика, ремонт та чип-тюнінг авто будь-якої складності з гарантією якості.</p>
-                <a href="#booking" class="btn-primary">Записатися на сервіс ⚡</a>
+
+            <!-- Будівля гаража СТО -->
+            <div class="garage-building">
+                <!-- Дах гаража -->
+                <div class="garage-roof"></div>
+
+                <!-- Клінкерна цегляна стіна з рекламою -->
+                <div class="garage-wall">
+                    <div class="billboard-badge">3D PREMIUM EXPERIENCE</div>
+                    <h1>ОБСЛУГОВУВАННЯ<br>ТВОЄЇ МРІЇ</h1>
+                    <p>Діагностика, ремонт та чип-тюнінг авто будь-якої складності з гарантією якості.</p>
+                    <a href="#booking" class="btn-primary">Записатися на сервіс ⚡</a>
+                </div>
+
+                <!-- Бетонний фундамент -->
+                <div class="garage-foundation"></div>
             </div>
 
-            <!-- Права частина: Сцена з анімацією -->
+            <!-- Права частина: Сцена з воротами гаража та заїздом авто -->
             <div id="car-3d-container"></div>
         </div>
     </section>
 
-    <!-- Додатковий контент нижче -->
+    <!-- Секція переваг -->
     <section class="features-section">
         <div class="feature-card">
             <h3>Точна діагностика</h3>

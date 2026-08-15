@@ -21,11 +21,10 @@ if (container) {
 
         const roadY = canvas.height - 35;
 
-        // 1. Нуарна дорога внизу
+        // 1. Дорога
         ctx.fillStyle = '#050507';
         ctx.fillRect(0, roadY, canvas.width, 35);
 
-        // Поребрик / бордюр
         ctx.fillStyle = '#111115';
         ctx.fillRect(0, roadY - 4, canvas.width, 4);
 
@@ -39,17 +38,40 @@ if (container) {
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // 2. Ретро-автомобіль 1930-х у стилі Sin City
+        // 2. Ворота гаража зліва (куди в'їжджає авто)
+        const doorWidth = 140;
+        const doorHeight = 110;
+        const doorY = roadY - doorHeight;
+
+        // Темрява всередині гаража
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, doorY, doorWidth, doorHeight);
+
+        // Неонова рамка воріт СТО
+        ctx.strokeStyle = '#00ff66';
+        ctx.shadowColor = '#00ff66';
+        ctx.shadowBlur = 10;
+        ctx.lineWidth = 3;
+        ctx.strokeRect(0, doorY, doorWidth, doorHeight);
+        ctx.shadowBlur = 0;
+
+        // 3. Анімація авто
         ctx.save();
+
+        // Кліпування: коли машина заїжджає ліворуч, вона зникає у воротах гаража
+        ctx.beginPath();
+        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.clip();
+
         ctx.translate(xPos, roadY - 60);
 
-        // Глибока тінь
+        // Тінь
         ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
         ctx.beginPath();
         ctx.ellipse(150, 60, 140, 8, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // Потужне біле світло фар (промінь на дорогу)
+        // Промінь фари
         ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
         ctx.beginPath();
         ctx.moveTo(0, 32);
@@ -58,14 +80,14 @@ if (container) {
         ctx.closePath();
         ctx.fill();
 
-        // Задне червоне габаритне світло
+        // Червоний стоп-сигнал
         ctx.fillStyle = '#ff0033';
         ctx.shadowColor = '#ff0033';
         ctx.shadowBlur = 10;
         ctx.fillRect(285, 30, 4, 8);
         ctx.shadowBlur = 0;
 
-        // КУЗОВ РЕТРО-АВТО (Кислотно-зелений на монохромному фоні)
+        // Кислотно-зелений кузов ретро-авто
         const bodyGradient = ctx.createLinearGradient(0, 0, 0, 50);
         bodyGradient.addColorStop(0, '#8cff33');
         bodyGradient.addColorStop(0.4, '#00ff66');
@@ -75,15 +97,15 @@ if (container) {
         ctx.shadowColor = '#00ff66';
         ctx.shadowBlur = 15;
 
-        // Силует класичного ретро-купе (довгий капот, вигнутий дах)
+        // Форма купе 1930-х
         ctx.beginPath();
-        ctx.moveTo(0, 35);           // Передня частина капота
+        ctx.moveTo(0, 35);
         ctx.lineTo(15, 28);
-        ctx.lineTo(100, 25);         // Довгий капот
-        ctx.lineTo(140, 5);          // Лобове скло
-        ctx.lineTo(200, 5);          // Дах
-        ctx.lineTo(245, 25);         // Заднє скло
-        ctx.lineTo(285, 28);         // Багажник
+        ctx.lineTo(100, 25);
+        ctx.lineTo(140, 5);
+        ctx.lineTo(200, 5);
+        ctx.lineTo(245, 25);
+        ctx.lineTo(285, 28);
         ctx.lineTo(290, 45);
         ctx.lineTo(280, 50);
         ctx.lineTo(10, 50);
@@ -91,7 +113,7 @@ if (container) {
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Велике вигнуте переднє крило (retro fender)
+        // Переднє крило
         ctx.fillStyle = '#00b344';
         ctx.beginPath();
         ctx.arc(60, 45, 22, Math.PI, 0, false);
@@ -102,7 +124,7 @@ if (container) {
         ctx.arc(230, 45, 22, Math.PI, 0, false);
         ctx.fill();
 
-        // Салон і скло
+        // Скло
         ctx.fillStyle = '#000000';
         ctx.beginPath();
         ctx.moveTo(143, 8);
@@ -112,11 +134,11 @@ if (container) {
         ctx.closePath();
         ctx.fill();
 
-        // Хромована решітка та радіатор
+        // Хромована решітка
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(-2, 28, 4, 18);
 
-        // Велика кругла фара зпереду
+        // Кругла фара
         ctx.fillStyle = '#ffffff';
         ctx.shadowColor = '#ffffff';
         ctx.shadowBlur = 15;
@@ -125,47 +147,43 @@ if (container) {
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Колеса (Широкі білі ободи ретро-стилю)
+        // Ретро-колеса
         drawRetroWheel(60, 48, wheelAngle);
         drawRetroWheel(230, 48, wheelAngle);
 
         ctx.restore();
 
-        // Переміщення машини вліво
+        // Рух машини вліво
         xPos -= speed;
         wheelAngle -= speed * 0.05;
 
-        if (xPos < -310) {
+        // Перезапуск, коли авто повністю заїхало в гараж
+        if (xPos < -280) {
             xPos = canvas.width + 50;
         }
 
         requestAnimationFrame(animate);
     }
 
-    // Малювання ретро-колеса з білими боковинами (White Wall Tires)
     function drawRetroWheel(x, y, angle) {
         ctx.save();
         ctx.translate(x, y);
 
-        // Чорна резина
         ctx.fillStyle = '#0a0a0c';
         ctx.beginPath();
         ctx.arc(0, 0, 18, 0, Math.PI * 2);
         ctx.fill();
 
-        // Біла ретро-смуга (Classic White Wall)
         ctx.fillStyle = '#e6e6e6';
         ctx.beginPath();
         ctx.arc(0, 0, 13, 0, Math.PI * 2);
         ctx.fill();
 
-        // Чорний центр диска
         ctx.fillStyle = '#111115';
         ctx.beginPath();
         ctx.arc(0, 0, 9, 0, Math.PI * 2);
         ctx.fill();
 
-        // Обертові неонові спиці
         ctx.rotate(angle);
         ctx.strokeStyle = '#00ff66';
         ctx.lineWidth = 2;
@@ -176,7 +194,6 @@ if (container) {
             ctx.stroke();
         }
 
-        // Хромований ковпак у центрі
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
         ctx.arc(0, 0, 3, 0, Math.PI * 2);
