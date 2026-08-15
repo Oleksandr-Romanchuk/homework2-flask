@@ -1,83 +1,141 @@
-// Ініціалізація сцени та камери
 const container = document.getElementById('car-3d-container');
-const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 1000);
-camera.position.set(0, 1.5, 7.5);
+// Створюємо Canvas для малювання
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+container.appendChild(canvas);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.2;
-container.appendChild(renderer.domElement);
+function resizeCanvas() {
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-// Реалістичне фото-освітлення
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
-scene.add(ambientLight);
+// Параметри машини
+let xPos = -300; // Початкова позиція за межами екрана ліворуч
+const speed = 2.5; // Швидкість руху
+let wheelAngle = 0; // Кут обертання коліс
 
-const mainLight = new THREE.DirectionalLight(0xffffff, 2.5);
-mainLight.position.set(5, 10, 7);
-scene.add(mainLight);
+function drawRealisticCar(x, y) {
+    ctx.save();
+    ctx.translate(x, y);
 
-const fillLight = new THREE.DirectionalLight(0x00ff66, 1.0);
-fillLight.position.set(-5, -2, -5);
-scene.add(fillLight);
+    // 1. Тінь під машиною
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+    ctx.beginPath();
+    ctx.ellipse(140, 95, 130, 12, 0, 0, Math.PI * 2);
+    ctx.fill();
 
-let carModel = null;
-let wheels = [];
+    // 2. Кузов машини (Спортивний седан BMW)
+    const bodyGradient = ctx.createLinearGradient(0, 20, 0, 80);
+    bodyGradient.addColorStop(0, '#ffffff');
+    bodyGradient.addColorStop(0.5, '#e6e6e6');
+    bodyGradient.addColorStop(1, '#b0b5bc');
 
-// Завантаження фотореалістичної 3D-моделі авто через надійний CDN
-const loader = new THREE.GLTFLoader();
-loader.load(
-    'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/SportsCar/glTF-Binary/SportsCar.glb',
-    (gltf) => {
-        carModel = gltf.scene;
-        carModel.scale.set(1.1, 1.1, 1.1);
-        carModel.position.set(-8, -0.9, 0);
-        carModel.rotation.y = Math.PI / 2; // Поворот боком до камери
+    ctx.fillStyle = bodyGradient;
+    ctx.beginPath();
+    ctx.moveTo(10, 75);
+    ctx.lineTo(25, 50);
+    ctx.lineTo(70, 45);
+    ctx.lineTo(110, 15); // Лобове скло
+    ctx.lineTo(190, 15); // Дах
+    ctx.lineTo(230, 45); // Заднє скло
+    ctx.lineTo(270, 55); // Багажник
+    ctx.lineTo(275, 75);
+    ctx.lineTo(260, 85);
+    ctx.lineTo(20, 85);
+    ctx.closePath();
+    ctx.fill();
 
-        // Знаходимо всі 4 колеса всередині 3D-ієрархії моделі
-        carModel.traverse((child) => {
-            if (child.isMesh && (child.name.toLowerCase().includes('wheel') || child.name.toLowerCase().includes('tire'))) {
-                wheels.push(child);
-            }
-        });
+    // 3. Тоноване скло
+    ctx.fillStyle = '#111622';
+    ctx.beginPath();
+    ctx.moveTo(112, 18);
+    ctx.lineTo(188, 18);
+    ctx.lineTo(222, 45);
+    ctx.lineTo(75, 45);
+    ctx.closePath();
+    ctx.fill();
 
-        scene.add(carModel);
-        animate();
-    },
-    undefined,
-    (error) => {
-        console.error('Помилка завантаження 3D моделі:', error);
-    }
-);
+    // Світловий відблиск на склі
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(130, 22);
+    ctx.lineTo(100, 42);
+    ctx.stroke();
 
-// Цикл анімації
-function animate() {
-    requestAnimationFrame(animate);
+    // 4. Передні фари (LED сяйво)
+    ctx.fillStyle = '#00ff66';
+    ctx.shadowColor = '#00ff66';
+    ctx.shadowBlur = 15;
+    ctx.fillRect(5, 52, 12, 8);
+    ctx.shadowBlur = 0; // Скидання тіні
 
-    if (carModel) {
-        // Рух машини вперед по осі X
-        carModel.position.x += 0.035;
+    // 5. Колеса з реалістичним обертанням
+    drawWheel(65, 85, wheelAngle);  // Переднє колесо
+    drawWheel(215, 85, wheelAngle); // Заднє колесо
 
-        // Фізично правильне обертання коліс навколо власної осі качення (rotation.x)
-        wheels.forEach(wheel => {
-            wheel.rotation.x += 0.08;
-        });
-
-        // Плавна циклічність (повернення на початок)
-        if (carModel.position.x > 8) {
-            carModel.position.x = -8;
-        }
-    }
-
-    renderer.render(scene, camera);
+    ctx.restore();
 }
 
-// Адаптивність під екрани
-window.addEventListener('resize', () => {
-    camera.aspect = container.clientWidth / container.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
-});
+// Функція малювання колеса з правильним обертанням спиць
+function drawWheel(x, y, angle) {
+    ctx.save();
+    ctx.translate(x, y);
+
+    // Шина (Резина)
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    ctx.arc(0, 0, 26, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Диск (Метал)
+    ctx.fillStyle = '#cccccc';
+    ctx.beginPath();
+    ctx.arc(0, 0, 17, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Обертання спиць диска навколо власної осі
+    ctx.rotate(angle);
+    ctx.strokeStyle = '#111111';
+    ctx.lineWidth = 3;
+    for (let i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos((i * Math.PI * 2) / 5) * 16, Math.sin((i * Math.PI * 2) / 5) * 16);
+        ctx.stroke();
+    }
+
+    // Центр диска (Супорт)
+    ctx.fillStyle = '#00ff66';
+    ctx.beginPath();
+    ctx.arc(0, 0, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+}
+
+// Головний цикл анімації
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Центрування по висоті контейнера
+    const yPos = canvas.height / 2 - 40;
+
+    drawRealisticCar(xPos, yPos);
+
+    // Рух машини та обертання коліс
+    xPos += speed;
+    wheelAngle += speed * 0.05; // Швидкість обертання коліс прив'язана до швидкості руху
+
+    // Повернення на початок
+    if (xPos > canvas.width + 50) {
+        xPos = -300;
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
