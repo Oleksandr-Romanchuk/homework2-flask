@@ -12,194 +12,212 @@ if (container) {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    let xPos = canvas.width + 100;
-    const speed = 2.2;
+    let xPos = canvas.width + 120;
+    const speed = 2.4;
     let wheelAngle = 0;
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const roadY = canvas.height - 35;
+        const roadY = canvas.height - 40;
 
-        // 1. Дорога
-        ctx.fillStyle = '#050507';
-        ctx.fillRect(0, roadY, canvas.width, 35);
+        // 1. Силуети хмарочосів Sin City на задньому плані
+        drawCitySkyline();
 
-        ctx.fillStyle = '#111115';
-        ctx.fillRect(0, roadY - 4, canvas.width, 4);
+        // 2. Мокра нуарна дорога
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, roadY, canvas.width, 40);
 
-        // Дорожня розмітка
-        ctx.strokeStyle = '#22222a';
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(0, roadY - 3, canvas.width, 3);
+
+        // Розмітка
+        ctx.strokeStyle = '#2a2a2a';
         ctx.lineWidth = 2;
-        ctx.setLineDash([25, 20]);
+        ctx.setLineDash([30, 25]);
         ctx.beginPath();
-        ctx.moveTo(0, roadY + 18);
-        ctx.lineTo(canvas.width, roadY + 18);
+        ctx.moveTo(0, roadY + 20);
+        ctx.lineTo(canvas.width, roadY + 20);
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // 2. Ворота гаража зліва (куди в'їжджає авто)
-        const doorWidth = 140;
-        const doorHeight = 110;
-        const doorY = roadY - doorHeight;
+        // 3. Вхід у гараж / тунель ліворуч
+        const tunnelWidth = 120;
+        const tunnelHeight = 130;
+        const tunnelY = roadY - tunnelHeight;
 
-        // Темрява всередині гаража
         ctx.fillStyle = '#000000';
-        ctx.fillRect(0, doorY, doorWidth, doorHeight);
+        ctx.fillRect(0, tunnelY, tunnelWidth, tunnelHeight);
 
-        // Неонова рамка воріт СТО
-        ctx.strokeStyle = '#00ff66';
-        ctx.shadowColor = '#00ff66';
-        ctx.shadowBlur = 10;
-        ctx.lineWidth = 3;
-        ctx.strokeRect(0, doorY, doorWidth, doorHeight);
+        // Червоний рамковий неоновий контур входу СТО
+        ctx.strokeStyle = '#ff0033';
+        ctx.shadowColor = '#ff0033';
+        ctx.shadowBlur = 12;
+        ctx.lineWidth = 4;
+        ctx.strokeRect(-5, tunnelY, tunnelWidth + 5, tunnelHeight);
         ctx.shadowBlur = 0;
 
-        // 3. Анімація авто
+        // 4. Малювання Кабріолета / Купе 50-х років (Sin City Red)
         ctx.save();
 
-        // Кліпування: коли машина заїжджає ліворуч, вона зникає у воротах гаража
+        // Машина зникає при заїзді в тунель
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width, canvas.height);
         ctx.clip();
 
-        ctx.translate(xPos, roadY - 60);
+        ctx.translate(xPos, roadY - 70);
 
-        // Тінь
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+        // Глибока тінь
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
         ctx.beginPath();
-        ctx.ellipse(150, 60, 140, 8, 0, 0, Math.PI * 2);
+        ctx.ellipse(160, 68, 150, 8, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // Промінь фари
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+        // Потужне біле світло фари на дорогу
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
         ctx.beginPath();
-        ctx.moveTo(0, 32);
-        ctx.lineTo(-180, -10);
-        ctx.lineTo(-180, 55);
+        ctx.moveTo(-5, 38);
+        ctx.lineTo(-220, -15);
+        ctx.lineTo(-220, 65);
         ctx.closePath();
         ctx.fill();
 
-        // Червоний стоп-сигнал
-        ctx.fillStyle = '#ff0033';
+        // КУЗОВ РЕТРО-АВТО (Криваво-червоний Sin City Cadillac/Buick)
+        const bodyGrad = ctx.createLinearGradient(0, 0, 0, 60);
+        bodyGrad.addColorStop(0, '#ff1a40');
+        bodyGrad.addColorStop(0.5, '#dc143c');
+        bodyGrad.addColorStop(1, '#660011');
+
+        ctx.fillStyle = bodyGrad;
         ctx.shadowColor = '#ff0033';
         ctx.shadowBlur = 10;
-        ctx.fillRect(285, 30, 4, 8);
-        ctx.shadowBlur = 0;
 
-        // Кислотно-зелений кузов ретро-авто
-        const bodyGradient = ctx.createLinearGradient(0, 0, 0, 50);
-        bodyGradient.addColorStop(0, '#8cff33');
-        bodyGradient.addColorStop(0.4, '#00ff66');
-        bodyGradient.addColorStop(1, '#006622');
-
-        ctx.fillStyle = bodyGradient;
-        ctx.shadowColor = '#00ff66';
-        ctx.shadowBlur = 15;
-
-        // Форма купе 1930-х
         ctx.beginPath();
-        ctx.moveTo(0, 35);
-        ctx.lineTo(15, 28);
-        ctx.lineTo(100, 25);
-        ctx.lineTo(140, 5);
-        ctx.lineTo(200, 5);
-        ctx.lineTo(245, 25);
-        ctx.lineTo(285, 28);
-        ctx.lineTo(290, 45);
-        ctx.lineTo(280, 50);
-        ctx.lineTo(10, 50);
+        ctx.moveTo(-5, 40);          // Бампер
+        ctx.lineTo(15, 30);          // Довгий капот 50-х
+        ctx.lineTo(110, 26);
+        ctx.lineTo(145, 12);         // Рамка лобового скла
+        ctx.lineTo(185, 12);         // Відкритий салон / Кабріолет
+        ctx.lineTo(235, 22);         // Задне вигнуте крило
+        ctx.lineTo(310, 10);         // ХАРАКТЕРНИЙ ПЛАВНИК (Tailfin)
+        ctx.lineTo(315, 45);         // Задній бампер
+        ctx.lineTo(300, 55);
+        ctx.lineTo(10, 55);
         ctx.closePath();
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Переднє крило
-        ctx.fillStyle = '#00b344';
+        // Хромовані смуги на боковині кузова (Характерно для 50-х)
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.arc(60, 45, 22, Math.PI, 0, false);
-        ctx.fill();
+        ctx.moveTo(15, 42);
+        ctx.lineTo(305, 42);
+        ctx.stroke();
 
-        // Заднє крило
-        ctx.beginPath();
-        ctx.arc(230, 45, 22, Math.PI, 0, false);
-        ctx.fill();
-
-        // Скло
-        ctx.fillStyle = '#000000';
-        ctx.beginPath();
-        ctx.moveTo(143, 8);
-        ctx.lineTo(197, 8);
-        ctx.lineTo(235, 25);
-        ctx.lineTo(108, 25);
-        ctx.closePath();
-        ctx.fill();
-
-        // Хромована решітка
+        // Червоні стоп-сигнали на плавниках
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(-2, 28, 4, 18);
+        ctx.shadowColor = '#ff0033';
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.arc(310, 15, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
 
-        // Кругла фара
+        // Лобове скло
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.beginPath();
+        ctx.moveTo(112, 26);
+        ctx.lineTo(143, 13);
+        ctx.lineTo(155, 26);
+        ctx.closePath();
+        ctx.fill();
+
+        // Подвійна велика хромована фара
         ctx.fillStyle = '#ffffff';
         ctx.shadowColor = '#ffffff';
-        ctx.shadowBlur = 15;
+        ctx.shadowBlur = 18;
         ctx.beginPath();
-        ctx.arc(2, 32, 6, 0, Math.PI * 2);
+        ctx.arc(-2, 38, 7, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Ретро-колеса
-        drawRetroWheel(60, 48, wheelAngle);
-        drawRetroWheel(230, 48, wheelAngle);
+        // Хромований масивний бампер
+        ctx.fillStyle = '#e6e6e6';
+        ctx.fillRect(-6, 42, 6, 12);
+
+        // Ретро-колеса з хромованими колпаками
+        drawCadillacWheel(65, 55, wheelAngle);
+        drawCadillacWheel(245, 55, wheelAngle);
 
         ctx.restore();
 
-        // Рух машини вліво
+        // Рух машини
         xPos -= speed;
         wheelAngle -= speed * 0.05;
 
-        // Перезапуск, коли авто повністю заїхало в гараж
-        if (xPos < -280) {
-            xPos = canvas.width + 50;
+        if (xPos < -320) {
+            xPos = canvas.width + 80;
         }
 
         requestAnimationFrame(animate);
     }
 
-    function drawRetroWheel(x, y, angle) {
+    // Малювання ретро-колеса з білою гумою та хромованим диском
+    function drawCadillacWheel(x, y, angle) {
         ctx.save();
         ctx.translate(x, y);
 
-        ctx.fillStyle = '#0a0a0c';
+        // Чорний протектор
+        ctx.fillStyle = '#000000';
         ctx.beginPath();
-        ctx.arc(0, 0, 18, 0, Math.PI * 2);
+        ctx.arc(0, 0, 20, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = '#e6e6e6';
+        // Біла ретро-смуга (Whitewall)
+        ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(0, 0, 13, 0, Math.PI * 2);
+        ctx.arc(0, 0, 15, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = '#111115';
+        // Хромований центр
+        ctx.fillStyle = '#222222';
         ctx.beginPath();
-        ctx.arc(0, 0, 9, 0, Math.PI * 2);
+        ctx.arc(0, 0, 10, 0, Math.PI * 2);
         ctx.fill();
 
+        // Обертові хром-спиці
         ctx.rotate(angle);
-        ctx.strokeStyle = '#00ff66';
+        ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 2;
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 6; i++) {
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(Math.cos((i * Math.PI) / 2) * 8, Math.sin((i * Math.PI) / 2) * 8);
+            ctx.lineTo(Math.cos((i * Math.PI) / 3) * 9, Math.sin((i * Math.PI) / 3) * 9);
             ctx.stroke();
         }
 
+        // Хромована центральна куля
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(0, 0, 3, 0, Math.PI * 2);
+        ctx.arc(0, 0, 4, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.restore();
+    }
+
+    // Задній фон з міським силуетом
+    function drawCitySkyline() {
+        ctx.fillStyle = '#050508';
+        ctx.fillRect(100, 80, 50, 280);
+        ctx.fillRect(180, 40, 70, 320);
+        ctx.fillRect(280, 110, 60, 250);
+
+        // Тільки де-не-де світяться вікна в нуарному місті
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(195, 60, 6, 10);
+        ctx.fillRect(220, 90, 6, 10);
+        ctx.fillRect(120, 120, 5, 8);
     }
 
     animate();
